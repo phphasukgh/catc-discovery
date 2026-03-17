@@ -1,2 +1,2 @@
 No,name,discoveryType,enablePasswordList,ipAddressList,passwordList,snmpAuthPassphrase,snmpAuthProtocol,snmpMode,snmpPrivPassphrase,snmpPrivProtocol,snmpROCommunity,snmpRWCommunity,snmpVersion,userNameList,preferredMgmtIPMethod
-1,Edge,MULTI RANGE,,172.16.20.2-172.16.20.10,C1sco12345,,,,,,public,private,v2,dnacadmin,None
+1,Edge,MULTI RANGE,,172.16.20.2-172.16.20.10,C1sco123456,,,,,,public,private,v2,dnacadmin,None
