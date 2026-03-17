@@ -1,0 +1,2 @@
+id,rowType,Name,discId,taskResult,IpAddress,Status,ping,snmp,cli,http,netconf,invCollection,invReachability,deviceHostname,deviceId,errorCode,errorParamCode,errorParams
+1,SUMMARY,Edge,,FAIL,,,,,,,,,,,,,,
