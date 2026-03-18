@@ -19,6 +19,29 @@ CLI utility for running Cisco Catalyst Center (CATC) discovery jobs from CSV inp
 - `shared_utils/`: Reusable CATC REST client, logging, and CSV utilities.
 - `logs/`: Runtime log output.
 
+## Project Structure
+
+```text
+catc-discovery/
+|-- catc_config.py
+|-- catc_discovery.py
+|-- discovery_data.csv
+|-- discovery_result.csv
+|-- discovery_result_rediscovery.csv
+|-- task_result.csv
+|-- task_result_rediscovery.csv
+|-- README.md
+|-- logs/
+|   `-- application_run.log
+`-- shared_utils/
+  |-- catc_restapi_lib.py
+  |-- CHANGELOG.md
+  |-- log_setup.py
+  |-- MIGRATION_GUIDE.md
+  |-- README.md
+  `-- util.py
+```
+
 ## Requirements
 
 - Python 3.10 or newer recommended.
@@ -57,7 +80,7 @@ python catc_discovery.py --help
 ```
 
 ```text
-usage: catc_discovery.py [-h] [--file FILE] [--mode MODE] [--name NAME]
+usage: catc_discovery.py [-h] [--file FILE] [--mode MODE]
                          [--remove_old_device_with_ip_conflict]
 ```
 
@@ -66,7 +89,6 @@ Arguments:
 - `--mode`: Operation mode. Supported values: `add`, `delete`, `assign`.
 - `--file`: Input CSV file for `add` and `assign` modes.
 - `--remove_old_device_with_ip_conflict`: In `add` mode, deletes conflicting devices and starts rediscovery for affected IPs.
-- `--name`: Accepted by the CLI but not currently used by the implementation.
 
 ## Modes
 
@@ -90,8 +112,18 @@ Expected CSV columns for discovery input are based on the payload expected by th
 
 ```csv
 No,name,discoveryType,enablePasswordList,ipAddressList,passwordList,snmpAuthPassphrase,snmpAuthProtocol,snmpMode,snmpPrivPassphrase,snmpPrivProtocol,snmpROCommunity,snmpRWCommunity,snmpVersion,userNameList,preferredMgmtIPMethod
-1,Edge,MULTI RANGE,,10.30.200.4-10.30.200.6,Super-csslabs1@,,,,,,csslabs,,v2,podmgmt-catcenter,None
+1,Edge,MULTI RANGE,<ENABLE_PASSWORD>,10.30.200.4-10.30.200.6,<DEVICE_LOGIN_PASSWORD>,<SNMP_AUTH_PASSPHRASE>,,,<SNMP_PRIV_PASSPHRASE>,,<SNMP_RO_COMMUNITY>,<SNMP_RW_COMMUNITY>,v2,<DEVICE_USERNAME>,None
 ```
+
+Credential fields in this CSV format are:
+
+- `enablePasswordList`
+- `passwordList`
+- `snmpAuthPassphrase`
+- `snmpPrivPassphrase`
+- `snmpROCommunity`
+- `snmpRWCommunity`
+- `userNameList`
 
 Notes:
 
@@ -123,7 +155,7 @@ Expected CSV columns:
 
 ```csv
 ip,site
-10.30.200.4,Global/Thailand/Bangkok/HQ
+10.30.200.4,Global/USA/SanJose/HQ
 ```
 
 ## Output Files
@@ -205,7 +237,6 @@ python catc_discovery.py --mode add --file discovery_data.csv --remove_old_devic
 
 ## Limitations
 
-- `--name` is parsed by the CLI but is not currently used.
 - The script prompts interactively for credentials, which makes non-interactive automation harder.
 - Input CSV validation is minimal; malformed or incomplete rows will fail in downstream CATC API calls.
 - `delete` mode deletes all discoveries through the shared CATC client method. Use carefully.
@@ -214,3 +245,11 @@ python catc_discovery.py --mode add --file discovery_data.csv --remove_old_devic
 
 - `shared_utils/README.md`: Documentation for the shared CATC utility library.
 - `shared_utils/MIGRATION_GUIDE.md`: Notes about the newer CATC client library naming and usage.
+
+## License
+
+Copyright (c) 2021–2026 Cisco and/or its affiliates.
+
+Licensed under the Cisco Sample Code License, Version 1.1.
+
+License information: https://developer.cisco.com/docs/licenses

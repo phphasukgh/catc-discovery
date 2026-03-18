@@ -28,8 +28,6 @@ def main():
                         help='Devices Information in CSV format, using comma as delimiter')
     parser.add_argument('--mode', dest='mode',
                         help='add, delete, assign')
-    parser.add_argument('--name', dest='name',
-                        help='<Job Name>')
     parser.add_argument('--remove_old_device_with_ip_conflict',
                         dest='remove_old_device_with_ip_conflict',
                         action='store_true',
