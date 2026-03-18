@@ -1,2 +1,2 @@
-CATC_IP = '10.122.21.37'
+CATC_IP = 'catc_ip_address'
 CATC_PORT = 443

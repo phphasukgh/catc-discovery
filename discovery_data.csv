@@ -1,2 +1,2 @@
 No,name,discoveryType,enablePasswordList,ipAddressList,passwordList,snmpAuthPassphrase,snmpAuthProtocol,snmpMode,snmpPrivPassphrase,snmpPrivProtocol,snmpROCommunity,snmpRWCommunity,snmpVersion,userNameList,preferredMgmtIPMethod
-1,Edge,MULTI RANGE,,10.30.200.4-10.30.200.6,Super-csslabs1@,,,,,,csslabs,,v2,podmgmt-catcenter,None
+1,Edge,MULTI RANGE,,10.x.x.x-10.x.x.y,passwordList,,,,,,snmpROCommunity,,v2,userNameList,None
