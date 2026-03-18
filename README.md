@@ -190,6 +190,40 @@ Columns:
 id,rowType,Name,discId,taskResult,IpAddress,Status,ping,snmp,cli,http,netconf,invCollection,invReachability,deviceHostname,deviceId,errorCode,errorParamCode,errorParams
 ```
 
+## API Endpoints Used By This Program
+
+This section includes only APIs used by `catc_discovery.py` through `shared_utils/catc_restapi_lib.py`.
+
+Primary API documentation pointer:
+
+- Cisco Catalyst Center API docs: https://developer.cisco.com/docs/dna-center/
+
+Used endpoints:
+
+| Program flow | Client method | HTTP | Endpoint |
+| --- | --- | --- | --- |
+| Login during client initialization | `get_token` | POST | `/dna/system/api/v1/auth/token` |
+| Logout at end of mode execution | `logout` | GET | `/logout?nocache` |
+| Add discovery jobs (`add` mode) | `add_discovery_node` | POST | `/dna/intent/api/v1/discovery` |
+| Poll discovery task status (`add` + rediscovery) | `get_task_info` | GET | `/dna/intent/api/v1/task/{tid}` |
+| Check discovery job status (`add` + rediscovery) | `get_discovery_info` | GET | `/dna/intent/api/v1/discovery/{did}` |
+| Fetch discovered devices (`add` + rediscovery) | `get_discovery_result` | GET | `/dna/intent/api/v1/discovery/{did}/network-device` |
+| Delete conflicting inventory device (`add` with conflict cleanup) | `delete_device_by_id` | DELETE | `/dna/intent/api/v1/network-device/{did}` |
+| Delete all discoveries (`delete` mode) | `delete_alldiscovery` | DELETE | `/dna/intent/api/v1/discovery` |
+| Resolve site ID by hierarchy (`assign` mode) | `get_siteid_by_name` | GET | `/dna/intent/api/v2/site` |
+| Assign device to site (`assign` mode) | `assign_device_to_site` | POST | `/dna/system/api/v1/site/{site_id}/device` |
+| Poll assignment execution status (`assign` mode) | `assign_device_to_site` | GET | Dynamic `executionStatusUrl` returned by assignment API |
+
+Notes:
+
+- `get_task_info` and `assign_device_to_site` are marked as deprecated in the client library but are still used by this script.
+- Newer APIs are available and documented in Cisco Catalyst Center API docs:
+  - Task API (newer than `/dna/intent/api/v1/task/{tid}`): `/dna/intent/api/v1/tasks/{task_id}`
+  - Site assignment API (newer than `/dna/system/api/v1/site/{site_id}/device`): `/dna/intent/api/v1/networkDevices/assignToSite/apply`
+  - Reference: https://developer.cisco.com/docs/dna-center/
+- Migrating this script to the newer APIs may require flow changes (request/response handling, task tracking, and status polling behavior) and should be followed by full regression testing.
+- The assignment status polling endpoint is dynamic because the API returns a full execution status path per request.
+
 ## IP Conflict Handling
 
 When `--remove_old_device_with_ip_conflict` is enabled during `add` mode, the script:
