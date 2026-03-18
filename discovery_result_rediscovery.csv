@@ -1,3 +1,3 @@
 id,rowType,Name,discId,taskResult,IpAddress,Status,ping,snmp,cli,http,netconf,invCollection,invReachability,deviceHostname,deviceId,errorCode,errorParamCode,errorParams
-1,SUMMARY,172.16.20.2_rediscovery,494,SUCCESS,,,,,,,,,,,,,,
-2,DETAIL,172.16.20.2_rediscovery,494,,172.16.20.2,SUCCESS,SUCCESS,SUCCESS,SUCCESS,NOT-PROVIDED,NOT-PROVIDED,In Progress,Reachable,Edge2.dcloud.cisco.com,3608fdf8-dbc6-47bf-bfb3-6a813db21ccb,,,
+1,SUMMARY,10.30.200.6_rediscovery,38,SUCCESS,,,,,,,,,,,,,,
+2,DETAIL,10.30.200.6_rediscovery,38,,10.30.200.6,SUCCESS,SUCCESS,SUCCESS,SUCCESS,NOT-PROVIDED,NOT-PROVIDED,In Progress,Unknown,Pod3-Edge3.csslabs.local,a81e6fa8-850d-48a8-9a79-df35150ddab7,,,

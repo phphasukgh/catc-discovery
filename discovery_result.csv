@@ -1,3 +1,5 @@
 id,rowType,Name,discId,taskResult,IpAddress,Status,ping,snmp,cli,http,netconf,invCollection,invReachability,deviceHostname,deviceId,errorCode,errorParamCode,errorParams
-1,SUMMARY,Edge,489,SUCCESS,,,,,,,,,,,,,,
-2,DETAIL,Edge,489,,172.16.20.2,SUCCESS,SUCCESS,SUCCESS,SUCCESS,NOT-PROVIDED,NOT-PROVIDED,Partial Collection Failure,Reachable,Edge2.dcloud.cisco.com,166b9499-44b5-4f98-b956-2d8e2a9e9a1e,SERIAL-NUMBER-CONFLICT,NCIM12004,"Serial number conflict detected for the IP address. Existing serial number: [FJC2327U03D], New serial number : [FJC2327S0C4]."
+1,SUMMARY,Edge,43,SUCCESS,,,,,,,,,,,,,,
+2,DETAIL,Edge,43,,10.30.200.4,SUCCESS,SUCCESS,SUCCESS,SUCCESS,NOT-PROVIDED,NOT-PROVIDED,In Progress,Reachable,Pod3-Edge1.csslabs.local,6e34836c-4d95-426e-a47e-67c035a9b1ee,,,
+3,DETAIL,Edge,43,,10.30.200.5,SUCCESS,SUCCESS,SUCCESS,SUCCESS,NOT-PROVIDED,NOT-PROVIDED,In Progress,Unknown,Pod3-Edge2.csslabs.local,37615d4a-f2ad-45e7-9cfb-0cfccb278baf,,,
+4,DETAIL,Edge,43,,10.30.200.6,SUCCESS,SUCCESS,SUCCESS,SUCCESS,NOT-PROVIDED,NOT-PROVIDED,In Progress,Reachable,Pod3-Edge3.csslabs.local,a81e6fa8-850d-48a8-9a79-df35150ddab7,,,

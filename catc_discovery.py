@@ -343,25 +343,36 @@ def main():
                          'errorParamCode',
                          'errorParams')
         print_csv('task_result.csv', 165)
-        print_csv('discovery_result.csv', 260)
+        print_csv(
+            'discovery_result.csv',
+            260,
+            exclude_columns=['invCollection', 'invReachability', 'deviceHostname', 'deviceId', 'errorParams']
+        )
 
         if args.remove_old_device_with_ip_conflict:
             logging.info('duplicated_ip_set: %s', json.dumps(duplicated_ip_set, indent=2))
             logging.debug('duplicated_ip_node_list: %s', json.dumps(duplicated_ip_node_list, indent=2))
             if duplicated_ip_set:
                 logging.info('Deleting old devices with IP conflict.')
+                print('\n' + '='*60)
+                print('DELETING OLD DEVICES WITH IP CONFLICT')
+                print('='*60)
                 for conflict_ip, device_id in duplicated_ip_set.items():
                     if not device_id:
                         logging.warning(f'Skipping device delete for conflict IP {conflict_ip}: missing device ID')
+                        print(f'[SKIP] IP {conflict_ip}: Missing device ID')
                         continue
 
                     logging.info(f'Starting delete for conflict IP {conflict_ip}, device ID {device_id}')
+                    print(f'\n[DELETE START] IP: {conflict_ip}, Device ID: {device_id}')
                     delete_task_id = catc.delete_device_by_id(device_id)
 
                     if not delete_task_id:
                         logging.warning(f'Device delete did not return task ID for conflict IP {conflict_ip}, device ID {device_id}')
+                        print(f'[ERROR] IP {conflict_ip}: No task ID returned from delete request')
                         continue
 
+                    print(f'[DELETE TASK] IP: {conflict_ip}, Task ID: {delete_task_id}')
                     max_attempts = 60
                     attempt = 0
                     while attempt < max_attempts:
@@ -371,6 +382,7 @@ def main():
 
                         if not delete_task_info:
                             logging.warning(f'Could not retrieve delete task status for task ID {delete_task_id} (attempt {attempt}/{max_attempts})')
+                            print(f'[WARNING] IP {conflict_ip}: Could not retrieve task status (attempt {attempt}/{max_attempts})')
                             continue
 
                         is_error = delete_task_info.get('isError', False)
@@ -379,16 +391,22 @@ def main():
                         failure_reason = delete_task_info.get('failureReason', '')
 
                         if is_error:
-                            logging.error(f'Device delete failed for conflict IP {conflict_ip}, device ID {device_id}, task ID {delete_task_id}, failureReason={failure_reason or progress or "Unknown error"}')
+                            error_msg = failure_reason or progress or "Unknown error"
+                            logging.error(f'Device delete failed for conflict IP {conflict_ip}, device ID {device_id}, task ID {delete_task_id}, failureReason={error_msg}')
+                            print(f'[DELETE FAILED] IP: {conflict_ip}, Reason: {error_msg}')
                             break
 
                         if end_time:
                             logging.info(f'Device delete completed for conflict IP {conflict_ip}, device ID {device_id}, task ID {delete_task_id}, progress={progress}')
+                            print(f'[DELETE SUCCESS] IP: {conflict_ip}, Progress: {progress}')
                             break
 
                         logging.debug(f'Device delete still in progress for conflict IP {conflict_ip}, task ID {delete_task_id} (attempt {attempt}/{max_attempts})')
+                        print(f'[DELETE IN PROGRESS] IP: {conflict_ip} (attempt {attempt}/{max_attempts})', end='\r')
                     else:
                         logging.warning(f'Device delete timed out for conflict IP {conflict_ip}, device ID {device_id}, task ID {delete_task_id}')
+                        print(f'[DELETE TIMEOUT] IP: {conflict_ip}: Exceeded maximum attempts')
+                print('='*60 + '\n')
 
                 if duplicated_ip_node_list:
                     logging.info('Starting rediscovery for duplicated IP nodes.')
@@ -679,7 +697,11 @@ def main():
                                     'errorParamCode',
                                     'errorParams')
                     print_csv('task_result_rediscovery.csv', 165)
-                    print_csv('discovery_result_rediscovery.csv', 260)
+                    print_csv(
+                        'discovery_result_rediscovery.csv',
+                        260,
+                        exclude_columns=['invCollection', 'invReachability', 'deviceHostname', 'deviceId', 'errorParams']
+                    )
 
         logging.info('logging out from CATC.')
         catc.logout()
