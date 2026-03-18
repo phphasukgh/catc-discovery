@@ -196,7 +196,7 @@ This section includes only APIs used by `catc_discovery.py` through `shared_util
 
 Primary API documentation pointer:
 
-- Cisco Catalyst Center API docs: https://developer.cisco.com/docs/dna-center/
+- Cisco Catalyst Center API docs: https://developer.cisco.com/docs/catalyst-center/2-3-7-9/
 
 Used endpoints:
 
@@ -220,7 +220,7 @@ Notes:
 - Newer APIs are available and documented in Cisco Catalyst Center API docs:
   - Task API (newer than `/dna/intent/api/v1/task/{tid}`): `/dna/intent/api/v1/tasks/{task_id}`
   - Site assignment API (newer than `/dna/system/api/v1/site/{site_id}/device`): `/dna/intent/api/v1/networkDevices/assignToSite/apply`
-  - Reference: https://developer.cisco.com/docs/dna-center/
+  - Reference: https://developer.cisco.com/docs/catalyst-center/2-3-7-9/
 - Migrating this script to the newer APIs may require flow changes (request/response handling, task tracking, and status polling behavior) and should be followed by full regression testing.
 - The assignment status polling endpoint is dynamic because the API returns a full execution status path per request.
 
